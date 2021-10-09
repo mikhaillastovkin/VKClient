@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="XibCollectionViewCell" customModule="VKClient" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="200" height="234"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="200" height="234"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="rOR-Qn-dFR">
+                        <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
+                        <constraints>
+                            <constraint firstAttribute="width" secondItem="rOR-Qn-dFR" secondAttribute="height" multiplier="1:1" id="Hay-ou-46Z"/>
+                            <constraint firstAttribute="height" constant="200" id="xok-Rv-Nvr"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LxP-Pl-gE4">
+                        <rect key="frame" x="167" y="208" width="25" height="22"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9mf-4L-3v4">
+                        <rect key="frame" x="124.5" y="208" width="22" height="22"/>
+                        <constraints>
+                            <constraint firstAttribute="width" secondItem="9mf-4L-3v4" secondAttribute="height" multiplier="1:1" id="kuQ-re-7R5"/>
+                        </constraints>
+                    </imageView>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="n83-fS-oCX">
+                        <rect key="frame" x="124" y="208" width="23" height="22"/>
+                        <connections>
+                            <action selector="pressHeartButton:" destination="gTV-IL-0wX" eventType="touchUpInside" id="K0D-Yd-qNw"/>
+                        </connections>
+                    </button>
+                </subviews>
+            </view>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <constraints>
+                <constraint firstItem="n83-fS-oCX" firstAttribute="centerY" secondItem="9mf-4L-3v4" secondAttribute="centerY" id="1Y6-CJ-phB"/>
+                <constraint firstItem="LxP-Pl-gE4" firstAttribute="top" secondItem="rOR-Qn-dFR" secondAttribute="bottom" constant="8" id="4Xm-xd-Vsc"/>
+                <constraint firstItem="ZTg-uK-7eu" firstAttribute="trailing" secondItem="rOR-Qn-dFR" secondAttribute="trailing" id="EmV-YL-EyW"/>
+                <constraint firstItem="9mf-4L-3v4" firstAttribute="top" secondItem="rOR-Qn-dFR" secondAttribute="bottom" constant="8" id="JX9-PD-Soc"/>
+                <constraint firstItem="n83-fS-oCX" firstAttribute="centerX" secondItem="9mf-4L-3v4" secondAttribute="centerX" id="ORL-YO-igv"/>
+                <constraint firstItem="LxP-Pl-gE4" firstAttribute="leading" secondItem="9mf-4L-3v4" secondAttribute="trailing" constant="4" id="PNh-OU-gZy"/>
+                <constraint firstItem="9mf-4L-3v4" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="ZTg-uK-7eu" secondAttribute="leading" constant="124" id="QzE-dP-Zxy"/>
+                <constraint firstItem="ZTg-uK-7eu" firstAttribute="trailing" secondItem="LxP-Pl-gE4" secondAttribute="trailing" constant="8" id="SG7-4C-2c3"/>
+                <constraint firstItem="9mf-4L-3v4" firstAttribute="height" secondItem="LxP-Pl-gE4" secondAttribute="height" id="Y8a-jz-O5O"/>
+                <constraint firstItem="ZTg-uK-7eu" firstAttribute="top" secondItem="rOR-Qn-dFR" secondAttribute="top" constant="44" id="ZVM-rE-LyQ"/>
+                <constraint firstItem="n83-fS-oCX" firstAttribute="width" secondItem="9mf-4L-3v4" secondAttribute="width" multiplier="1.04545" id="hVa-tj-cYl"/>
+                <constraint firstItem="n83-fS-oCX" firstAttribute="height" secondItem="9mf-4L-3v4" secondAttribute="height" id="hh2-eD-6gb"/>
+                <constraint firstItem="ZTg-uK-7eu" firstAttribute="bottom" secondItem="9mf-4L-3v4" secondAttribute="bottom" constant="4" id="rAh-BQ-fpu"/>
+                <constraint firstItem="ZTg-uK-7eu" firstAttribute="bottom" secondItem="LxP-Pl-gE4" secondAttribute="bottom" constant="4" id="ruI-cs-azT"/>
+                <constraint firstItem="rOR-Qn-dFR" firstAttribute="leading" secondItem="ZTg-uK-7eu" secondAttribute="leading" id="sqn-0l-HXp"/>
+            </constraints>
+            <size key="customSize" width="200" height="234"/>
+            <connections>
+                <outlet property="heartImageView" destination="9mf-4L-3v4" id="8dK-bD-rJ1"/>
+                <outlet property="imageCoolectionViewCell" destination="rOR-Qn-dFR" id="0xU-bx-ch3"/>
+                <outlet property="likesLabel" destination="LxP-Pl-gE4" id="BnA-B8-hOX"/>
+            </connections>
+            <point key="canvasLocation" x="246.37681159420291" y="42.857142857142854"/>
+        </collectionViewCell>
+    </objects>
+</document>
