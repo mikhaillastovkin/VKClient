@@ -21,7 +21,7 @@
             <Locations>
                <Location
                   uuid = "9F070AF6-F023-4E91-B724-57CCB6A72217 - 23dc1efe915102ba"
-                  shouldBeEnabled = "Yes"
+                  shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "VKClient.FriendsFotoGallaryViewController.fotoGalleryArray.getter : Swift.Array&lt;VKClient.Foto&gt;"
@@ -36,7 +36,7 @@
                </Location>
                <Location
                   uuid = "9F070AF6-F023-4E91-B724-57CCB6A72217 - 1a103b9b772f7a8e"
-                  shouldBeEnabled = "Yes"
+                  shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "VKClient.FriendsFotoGallaryViewController.fotoGalleryArray.setter : Swift.Array&lt;VKClient.Foto&gt;"
@@ -51,7 +51,7 @@
                </Location>
                <Location
                   uuid = "9F070AF6-F023-4E91-B724-57CCB6A72217 - cdd53ec8d5f96271"
-                  shouldBeEnabled = "Yes"
+                  shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "VKClient.FriendsFotoGallaryViewController.fotoGalleryArray.modify : Swift.Array&lt;VKClient.Foto&gt;"
@@ -66,7 +66,7 @@
                </Location>
                <Location
                   uuid = "9F070AF6-F023-4E91-B724-57CCB6A72217 - 33d1ddd170e087da"
-                  shouldBeEnabled = "Yes"
+                  shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "VKClient.FriendsFotoGallaryViewController.fotoGalleryArray.modify : Swift.Array&lt;VKClient.Foto&gt; with unmangled suffix &quot;.resume.0&quot;"
@@ -81,7 +81,7 @@
                </Location>
                <Location
                   uuid = "9F070AF6-F023-4E91-B724-57CCB6A72217 - 2e8b173dfa9fee43"
-                  shouldBeEnabled = "Yes"
+                  shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "VKClient.FriendsFotoGallaryViewController.init(nibName: Swift.Optional&lt;Swift.String&gt;, bundle: Swift.Optional&lt;__C.NSBundle&gt;) -&gt; VKClient.FriendsFotoGallaryViewController"
@@ -96,7 +96,7 @@
                </Location>
                <Location
                   uuid = "9F070AF6-F023-4E91-B724-57CCB6A72217 - cf9b84b2aa430c60"
-                  shouldBeEnabled = "Yes"
+                  shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "VKClient.FriendsFotoGallaryViewController.init(coder: __C.NSCoder) -&gt; Swift.Optional&lt;VKClient.FriendsFotoGallaryViewController&gt;"
@@ -122,8 +122,8 @@
             filePath = "VKClient/Friends/FriendsCollectionViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "81"
-            endingLineNumber = "81"
+            startingLineNumber = "106"
+            endingLineNumber = "106"
             landmarkName = "collectionView(_:didSelectItemAt:)"
             landmarkType = "7">
          </BreakpointContent>

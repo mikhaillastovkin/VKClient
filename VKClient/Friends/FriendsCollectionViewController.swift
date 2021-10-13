@@ -11,8 +11,11 @@ class FriendsCollectionViewController: UIViewController {
 
     @IBOutlet weak var friendsCollectionView: UICollectionView!
     
-    var fotoArray = [Foto]()
+    var fotoArray = [Items]()
+    var userID = String()
     var indexS = 0
+
+    let nwl = NetworkLayer()
     
     let reuseIdentifierXibCollectionViewCell = "reuseIdentifierXibCollectionViewCell"
     let segueFromCollectionToGallaryIdentofier = "SegueFromCollectionToGallary"
@@ -33,11 +36,29 @@ class FriendsCollectionViewController: UIViewController {
         friendsCollectionView.dataSource = self
         friendsCollectionView.delegate = self
         friendsCollectionView.register(UINib(nibName: "XibCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: reuseIdentifierXibCollectionViewCell)
-        
+
+        loadPhoto()
+
         }
 
+    func loadPhoto() {
+        nwl.getFoto(for: userID) { [weak self] photos in
 
-}
+            guard let self = self else { return }
+
+            for photo in photos {
+                photo.sizes.map { $0.width == 75 }
+                }
+
+            self.fotoArray = photos
+            self.friendsCollectionView.reloadData()
+            }
+
+
+
+        }
+    }
+
 
 extension FriendsCollectionViewController: UICollectionViewDataSource {
     
@@ -64,14 +85,18 @@ extension FriendsCollectionViewController: UICollectionViewDataSource {
 
 extension FriendsCollectionViewController: XibCollectionViewCellDelegate {
     func pressLikeButton(isLikeOn: Bool, indexOfPicture: Int) {
-        fotoArray[indexOfPicture].isLikeOn = isLikeOn
-        if isLikeOn {
-            fotoArray[indexOfPicture].countLikes += 1
-        }
-        else {
-            fotoArray[indexOfPicture].countLikes -= 1
-        }
+
     }
+
+//    func pressLikeButton(isLikeOn: Bool, indexOfPicture: Int) {
+//        fotoArray[indexOfPicture].isLikeOn = isLikeOn
+//        if isLikeOn {
+//            fotoArray[indexOfPicture].countLikes += 1
+//        }
+//        else {
+//            fotoArray[indexOfPicture].countLikes -= 1
+//        }
+//    }
 }
 
 
@@ -87,7 +112,7 @@ extension FriendsCollectionViewController: UICollectionViewDelegate {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == segueFromCollectionToGallaryIdentofier,
            let dst = segue.destination as? FriendsFotoGallaryViewController {
-            dst.fotoGalleryArray = fotoArray
+//            dst.fotoGalleryArray = fotoArray
             dst.startIndex = indexS
         }
     }

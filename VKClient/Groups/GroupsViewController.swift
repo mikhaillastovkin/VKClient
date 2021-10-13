@@ -14,9 +14,8 @@ class GroupsViewController: UIViewController {
     
     
     var myGroups = [Groups]()
-    
+    let nwl = NetworkLayer()
 
-    var allTestGroupNames = ["Любители поесть", "Любители поспать", "Любители читать", "Любители кино"]
     
     let reuseIdentifierXibTableViewCell = "reuseIdentifierXibTableViewCell"
     
@@ -26,7 +25,7 @@ class GroupsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         groupsTableView.dataSource = self
         groupsTableView.delegate = self
         
@@ -35,10 +34,24 @@ class GroupsViewController: UIViewController {
     
         NotificationCenter.default.addObserver(self, selector: #selector(addNewGroup(_:)), name: NSNotification.Name(rawValue: "sendGroup"), object: nil)
 
+        loagGroup()
+
+
+    }
+
+    func loagGroup() {
+        nwl.getGroup(for: Singletone.share.idUser) { [weak self] groups in
+            guard
+                let self = self else { return }
+            print(groups)
+            self.myGroups = groups.sorted(by: { $0.name < $1.name })
+            self.groupsTableView.reloadData()
+        }
+
     }
     
     func isContainInArray(group: Groups) -> Bool {
-        if myGroups.contains(where: { itemGroup in itemGroup.title == group.title}) {
+        if myGroups.contains(where: { itemGroup in itemGroup.name == group.name}) {
             return true
         }
         return false

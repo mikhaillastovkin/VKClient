@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -14,6 +14,9 @@
 		740B787D2675FAB900BE773E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 740B787C2675FAB900BE773E /* Assets.xcassets */; };
 		740B78802675FAB900BE773E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 740B787E2675FAB900BE773E /* LaunchScreen.storyboard */; };
 		740B78882675FB2400BE773E /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 740B78872675FB2400BE773E /* LoginViewController.swift */; };
+		74157B6127141B67005FE462 /* VKResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74157B6027141B67005FE462 /* VKResponse.swift */; };
+		74157B6427149E5E005FE462 /* Nuke in Frameworks */ = {isa = PBXBuildFile; productRef = 74157B6327149E5E005FE462 /* Nuke */; };
+		741BEC252715D7AF00284B42 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 741BEC242715D7AF00284B42 /* Photo.swift */; };
 		742174C826A059EA001C504A /* FriendsFotoGallaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742174C726A059EA001C504A /* FriendsFotoGallaryViewController.swift */; };
 		7424F0FB270B311E006B8B4E /* Singletone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7424F0FA270B311E006B8B4E /* Singletone.swift */; };
 		746AED8D270F2FFD009B3E54 /* NetworkLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 746AED8C270F2FFD009B3E54 /* NetworkLayer.swift */; };
@@ -47,6 +50,8 @@
 		740B787F2675FAB900BE773E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		740B78812675FAB900BE773E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		740B78872675FB2400BE773E /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		74157B6027141B67005FE462 /* VKResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VKResponse.swift; sourceTree = "<group>"; };
+		741BEC242715D7AF00284B42 /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
 		742174C726A059EA001C504A /* FriendsFotoGallaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsFotoGallaryViewController.swift; sourceTree = "<group>"; };
 		7424F0FA270B311E006B8B4E /* Singletone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Singletone.swift; sourceTree = "<group>"; };
 		746AED8C270F2FFD009B3E54 /* NetworkLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkLayer.swift; sourceTree = "<group>"; };
@@ -72,6 +77,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C31C0F768B1C899C95CB3202 /* Pods_VKClient.framework in Frameworks */,
+				74157B6427149E5E005FE462 /* Nuke in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -188,6 +194,8 @@
 				74E9DBCF2688F00A00473348 /* Users.swift */,
 				74E9DBD12688F16700473348 /* Groups.swift */,
 				7474450E2692F2740084787D /* News.swift */,
+				74157B6027141B67005FE462 /* VKResponse.swift */,
+				741BEC242715D7AF00284B42 /* Photo.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -227,6 +235,9 @@
 			dependencies = (
 			);
 			name = VKClient;
+			packageProductDependencies = (
+				74157B6327149E5E005FE462 /* Nuke */,
+			);
 			productName = VKClient;
 			productReference = 740B78702675FAAF00BE773E /* VKClient.app */;
 			productType = "com.apple.product-type.application";
@@ -254,6 +265,9 @@
 				Base,
 			);
 			mainGroup = 740B78672675FAAF00BE773E;
+			packageReferences = (
+				74157B6227149E5E005FE462 /* XCRemoteSwiftPackageReference "Nuke" */,
+			);
 			productRefGroup = 740B78712675FAAF00BE773E /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -330,9 +344,11 @@
 				74E054672693A85000F5801D /* NewsTableViewCell.swift in Sources */,
 				74E82AA72682549500D7EA15 /* XibCollectionViewCell.swift in Sources */,
 				7474450F2692F2740084787D /* News.swift in Sources */,
+				741BEC252715D7AF00284B42 /* Photo.swift in Sources */,
 				746AED8D270F2FFD009B3E54 /* NetworkLayer.swift in Sources */,
 				74E9DBD42688F23900473348 /* MainTabbarController.swift in Sources */,
 				74E9DBD22688F16700473348 /* Groups.swift in Sources */,
+				74157B6127141B67005FE462 /* VKResponse.swift in Sources */,
 				74E9DBD02688F00A00473348 /* Users.swift in Sources */,
 				740B78782675FAAF00BE773E /* FriendsTableViewController.swift in Sources */,
 				74E82AA426824D8B00D7EA15 /* GroupsViewController.swift in Sources */,
@@ -547,6 +563,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		74157B6227149E5E005FE462 /* XCRemoteSwiftPackageReference "Nuke" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kean/Nuke.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 9.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		74157B6327149E5E005FE462 /* Nuke */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 74157B6227149E5E005FE462 /* XCRemoteSwiftPackageReference "Nuke" */;
+			productName = Nuke;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 740B78682675FAAF00BE773E /* Project object */;
 }

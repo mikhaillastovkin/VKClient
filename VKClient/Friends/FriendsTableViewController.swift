@@ -30,10 +30,12 @@ final class FriendsTableViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         friendsTableView.reloadData()
+        
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
         friendsTableView.dataSource = self
         friendsTableView.delegate = self
         searchBarFriends.delegate = self
@@ -41,17 +43,23 @@ final class FriendsTableViewController: UIViewController {
         
         friendsTableView.register(UINib(nibName: "XibTableViewCell", bundle: nil), forCellReuseIdentifier: reuseIdentifierXibTableViewCell)
 
-        nwl.getFriends()
-        nwl.getFoto()
-        nwl.getGroup()
-        nwl.getGroupSeach(groupName: "Swift")
+        loadFriends()
         
+    }
+
+    func loadFriends(){
+        nwl.getFriends(for: Singletone.share.idUser) { [weak self] friends in
+            guard let self = self else { return }
+
+            self.friendsArray = friends.sorted(by: { $0.name < $1.name })
+            self.friendsTableView.reloadData()
+        }
     }
     
     @IBAction func unwindFromFriendToPhoto(_ sender: UIStoryboardSegue) {
-        if let source = sender.source as? FriendsCollectionViewController {
-            friendsArray[savedIndexP + savedIndexS].fotoArray = source.fotoArray
-        }
+//        if let source = sender.source as? FriendsCollectionViewController {
+//            friendsArray[savedIndexP + savedIndexS].fotoArray = source.fotoArray
+//        }
     }
     
     func MyFriendsArray() -> [Users] {
@@ -126,7 +134,7 @@ extension FriendsTableViewController: UITableViewDelegate {
            let user = sender as? Users,
            let indexP = friendsTableView.indexPathForSelectedRow?.row,
            let indexS = friendsTableView.indexPathForSelectedRow?.section {
-            dst.fotoArray = user.fotoArray
+            dst.userID = String(user.id)
             savedIndexP = indexP
             savedIndexS = indexS
         }

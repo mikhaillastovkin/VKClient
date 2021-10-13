@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Nuke
 
 class XibTableViewCell: UITableViewCell {
     
@@ -62,14 +63,17 @@ class XibTableViewCell: UITableViewCell {
     
     func configure(user: Users) {
         saveObject = user
-        imageCell.image = user.avatar
         labelCell.text = user.name
+        guard let url = URL(string: user.photo) else { return }
+        Nuke.loadImage(with: url, into: imageCell)
     }
     
     func configure(group: Groups) {
         saveObject = group
-        imageCell.image = group.image
-        labelCell.text = group.title
+
+        guard let url = URL(string: group.image) else { return }
+        Nuke.loadImage(with: url, into: imageCell)
+        labelCell.text = group.name
     }
     
     
