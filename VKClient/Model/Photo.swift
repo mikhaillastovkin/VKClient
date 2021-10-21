@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import RealmSwift
 
 struct VKResonsePhoto: Decodable {
     let response : ResponsePhoto
@@ -32,16 +33,19 @@ struct ResponsePhoto: Decodable {
 struct Items : Decodable {
     let sizes : [Foto]
     let likes : Likes
+    let id : Int
 
     enum CodingKeys: String, CodingKey {
         case sizes = "sizes"
         case likes = "likes"
+        case id = "id"
     }
 
     init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         sizes = try values.decode([Foto].self, forKey: .sizes)
         likes = try values.decode(Likes.self, forKey: .likes)
+        id = try values.decode(Int.self, forKey: .id)
     }
 }
 

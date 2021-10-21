@@ -52,22 +52,22 @@ class XibCollectionViewCell: UICollectionViewCell {
     }
     
     
-    func configure(image: Items, indexOfPicture: Int) {
+    func configure(image: RealmPhoto, indexOfPicture: Int) {
         self.indexOfPicture = indexOfPicture
 
         guard let urlPhoto = image.sizes.first?.src else { return }
 
         guard let url = URL(string: urlPhoto) else { return }
         Nuke.loadImage(with: url, into: imageCoolectionViewCell)
-        likesLabel.text = String(image.likes.count)
+        likesLabel.text = String(image.count)
         
-        if image.likes.userlikes == 1 {
+        if image.userlikes == 1 {
             heartImageView.image = UIImage(named: "like")
         }
         else {
             heartImageView.image = UIImage(named: "dontlike")
         }
-        countLike = image.likes.count
+        countLike = image.count
     }
     
     

@@ -61,14 +61,14 @@ class XibTableViewCell: UITableViewCell {
     }
     
     
-    func configure(user: Users) {
+    func configure(user: RealmUsers) {
         saveObject = user
         labelCell.text = user.name
         guard let url = URL(string: user.photo) else { return }
         Nuke.loadImage(with: url, into: imageCell)
     }
     
-    func configure(group: Groups) {
+    func configure(group: RealmGroups) {
         saveObject = group
 
         guard let url = URL(string: group.image) else { return }
