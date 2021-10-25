@@ -13,12 +13,19 @@ class GroupsViewController: UIViewController {
     @IBOutlet weak var groupsTableView: UITableView!
 
     var myGroups: Results<RealmGroups>?
+    var notifationToken: NotificationToken?
+
 
     let nwl = NetworkLayer()
     let reuseIdentifierXibTableViewCell = "reuseIdentifierXibTableViewCell"
     
     override func viewWillAppear(_ animated: Bool) {
         self.groupsTableView.reloadData()
+    }
+
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        notifationToken?.invalidate()
     }
     
     override func viewDidLoad() {
@@ -37,6 +44,18 @@ class GroupsViewController: UIViewController {
     func loadGroup() {
         nwl.getGroup(for: Singletone.share.idUser)
         myGroups = try? RealmService.load(typeOf: RealmGroups.self).sorted(byKeyPath: "name")
+        notifationToken = myGroups?.observe { [weak self] changes in
+            switch changes {
+            case .initial(let objects):
+                if objects.count > 0 {
+                    self?.groupsTableView.reloadData()
+                }
+            case let .update(results, deletions, insertions, modifications):
+                self?.groupsTableView.reloadData()
+            case .error(let error):
+                print(error)
+            }
+        }
 
     }
     

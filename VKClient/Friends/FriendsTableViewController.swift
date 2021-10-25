@@ -19,15 +19,22 @@ final class FriendsTableViewController: UIViewController {
     let nwl = NetworkLayer()
 
     var friendsArray: Results<RealmUsers>?
+    var notifationToken: NotificationToken?
 
     var savedIndexP = Int()
     var savedIndexS = Int()
     var searchFlag = Bool()
+
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         friendsTableView.reloadData()
 
+    }
+
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        notifationToken?.invalidate()
     }
 
     override func viewDidLoad() {
@@ -46,8 +53,20 @@ final class FriendsTableViewController: UIViewController {
 
     private func loadFriends(){
         nwl.getFriends(for: Singletone.share.idUser)
-        
         friendsArray = try? RealmService.load(typeOf: RealmUsers.self).sorted(byKeyPath: "name")
+
+        notifationToken = friendsArray?.observe { [weak self] changes in
+            switch changes {
+            case .initial(let objects):
+                if objects.count > 0 {
+                    self?.friendsTableView.reloadData()
+                }
+            case let .update(results, deletions, insertions, modifications):
+                self?.friendsTableView.reloadData()
+            case .error(let error):
+                print(error)
+            }
+        }
 
     }
 
