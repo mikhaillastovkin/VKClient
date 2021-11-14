@@ -13,6 +13,7 @@ class FriendsCollectionViewController: UIViewController {
     @IBOutlet weak var friendsCollectionView: UICollectionView!
     
     var fotoArray: Results<RealmPhoto>?
+    var notifationToken: NotificationToken?
 
     var userID = String()
     var indexS = 0
@@ -33,6 +34,11 @@ class FriendsCollectionViewController: UIViewController {
 //        performSegue(withIdentifier: "unwindToFriends", sender: fotoArray)
 //    }
 
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        notifationToken?.invalidate()
+    }
+
 
     override func viewDidLoad() {
         friendsCollectionView.dataSource = self
@@ -47,7 +53,18 @@ class FriendsCollectionViewController: UIViewController {
         nwl.getFoto(for: userID)
         fotoArray = try? RealmService.load(typeOf: RealmPhoto.self)
             .filter(NSPredicate(format: "user = '\(userID)'"))
-        print(fotoArray)
+        notifationToken = fotoArray?.observe { [weak self] changes in
+            switch changes {
+            case .initial(let objects):
+                if objects.count > 0 {
+                    self?.friendsCollectionView.reloadData()
+                }
+            case let .update(results, deletions, insertions, modifications):
+                self?.friendsCollectionView.reloadData()
+            case .error(let error):
+                print(error)
+            }
+        }
     }
 }
 

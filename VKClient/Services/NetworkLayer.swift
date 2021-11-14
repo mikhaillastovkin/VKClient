@@ -27,9 +27,11 @@ final class NetworkLayer {
             do {
                 let friends = try JSONDecoder().decode(VKResonse<Users>.self, from: jsonData)
                 let realmFriends = friends.response.items.map { RealmUsers(user: $0) }
-                try RealmService.save(items: realmFriends)
+                DispatchQueue.main.async {
+                    try? RealmService.save(items: realmFriends)
+                }
             } catch {
-                print(json)
+                print(error)
             }
         }
     }
@@ -52,9 +54,11 @@ final class NetworkLayer {
             do {
                 let foto = try JSONDecoder().decode(VKResonsePhoto.self, from: jsonData)
                 let realmPhoto = foto.response.items.map { RealmPhoto(photo: $0, user: user)}
-                try RealmService.save(items: realmPhoto)
+                DispatchQueue.main.async {
+                    try? RealmService.save(items: realmPhoto)
+                }
             } catch {
-                print(json)
+                print(error)
             }
         }
     }
@@ -75,9 +79,12 @@ final class NetworkLayer {
             do {
                 let groups = try JSONDecoder().decode(VKResonse<Groups>.self, from: jsonData)
                 let realmGroup = groups.response.items.map { RealmGroups(group: $0) }
-                try RealmService.save(items: realmGroup)
+                DispatchQueue.main.async {
+                    try? RealmService.save(items: realmGroup)
+                    
+                }
                 } catch {
-                print(json)
+                print(error)
             }
         }
     }
