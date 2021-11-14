@@ -6,12 +6,14 @@
 //
 
 import UIKit
+import Nuke
+import RealmSwift
 
 class FriendsFotoGallaryViewController: UIViewController {
     
     
     @IBOutlet weak var galleryView: UIView!
-    var fotoGalleryArray = [Foto]()
+    var fotoGalleryArray = [Items]()
     var startIndex = 0
     var interactiveAnimator: UIViewPropertyAnimator!
     
@@ -27,20 +29,24 @@ class FriendsFotoGallaryViewController: UIViewController {
         
         let recognizer = UIPanGestureRecognizer(target: self, action: #selector(onPan(_:)))
         galleryView.addGestureRecognizer(recognizer)
-        
-        
-        
-        
         mainImage.frame = galleryView.bounds
-        mainImage.image = fotoGalleryArray[startIndex].foto
+
+        loadImage(urlString: fotoGalleryArray[startIndex].sizes.last?.src, destenation: mainImage)
+
         mainImage.contentMode = .scaleAspectFit
         secondImage.frame = galleryView.bounds
         secondImage.contentMode = .scaleAspectFit
         galleryView.addSubview(mainImage)
         galleryView.addSubview(secondImage)
         galleryView.bringSubviewToFront(mainImage)
-        
-        
+
+    }
+
+    private func loadImage(urlString: String?, destenation: UIImageView) {
+        guard let urlImageFirst = urlString,
+        let urlFirst = URL(string: urlImageFirst) else { return }
+        Nuke.loadImage(with: urlFirst, into: destenation)
+
     }
     
     
@@ -49,28 +55,28 @@ class FriendsFotoGallaryViewController: UIViewController {
            animator.isRunning {
             return
         }
-        
-    
-        
+
         switch recognaizer.state {
             case .began:
-                interactiveAnimator = UIViewPropertyAnimator(duration: 0.5,
-                                                             curve: .linear,
-                                                             animations: { [weak self] in
-                                                                self?.mainImage.transform = .identity
-                                                             })
+                interactiveAnimator =
+            UIViewPropertyAnimator(
+                duration: 0.5,
+                curve: .linear,
+                animations: { [weak self] in
+                    self?.mainImage.transform = .identity})
                 interactiveAnimator?.startAnimation()
                 interactiveAnimator.pauseAnimation()
-                
+
             case .changed:
                 var translation = recognaizer.translation(in: self.view)
                 print (translation)
-                
+
                 if translation.x < 0 {
                     if startIndex < fotoGalleryArray.count - 1 {
                         interactiveAnimator.stopAnimation(true)
                         startIndex += 1
-                        secondImage.image = fotoGalleryArray[startIndex].foto
+
+                        loadImage(urlString: fotoGalleryArray[startIndex].sizes.last?.src, destenation: secondImage)
                         secondImage.transform = CGAffineTransform(translationX: UIScreen.main.bounds.width, y: 0)
                         interactiveAnimator.addAnimations { [weak self] in
                             self?.mainImage.transform = CGAffineTransform(translationX: -UIScreen.main.bounds.width, y: 0)
@@ -87,7 +93,7 @@ class FriendsFotoGallaryViewController: UIViewController {
                         if startIndex == fotoGalleryArray.count - 1 {
                             interactiveAnimator.stopAnimation(true)
                             startIndex = 0
-                            secondImage.image = fotoGalleryArray[startIndex].foto
+                            loadImage(urlString: fotoGalleryArray[startIndex].sizes.last?.src, destenation: secondImage)
                             secondImage.transform = CGAffineTransform(translationX: UIScreen.main.bounds.width, y: 0)
                             interactiveAnimator.addAnimations { [weak self] in
                                 self?.mainImage.transform = CGAffineTransform(translationX: -UIScreen.main.bounds.width, y: 0)
@@ -100,16 +106,16 @@ class FriendsFotoGallaryViewController: UIViewController {
 
                             })
                         interactiveAnimator.startAnimation()
-                            
+
                         }
                     }
-                    
+
                 }
                 if translation.x > 0 {
                     if startIndex < fotoGalleryArray.count - 1 {
                         interactiveAnimator.stopAnimation(true)
                         startIndex += 1
-                        secondImage.image = fotoGalleryArray[startIndex].foto
+                        loadImage(urlString: fotoGalleryArray[startIndex].sizes.last?.src, destenation: secondImage)
                         secondImage.transform = CGAffineTransform(translationX: -UIScreen.main.bounds.width, y: 0)
                         interactiveAnimator.addAnimations { [weak self] in
                             self?.mainImage.transform = CGAffineTransform(translationX: UIScreen.main.bounds.width, y: 0)
@@ -126,7 +132,7 @@ class FriendsFotoGallaryViewController: UIViewController {
                         if startIndex == fotoGalleryArray.count - 1 {
                             interactiveAnimator.stopAnimation(true)
                             startIndex = 0
-                            secondImage.image = fotoGalleryArray[startIndex].foto
+                            loadImage(urlString: fotoGalleryArray[startIndex].sizes.last?.src, destenation: secondImage)
                             secondImage.transform = CGAffineTransform(translationX: -UIScreen.main.bounds.width, y: 0)
                             interactiveAnimator.addAnimations { [weak self] in
                                 self?.mainImage.transform = CGAffineTransform(translationX: UIScreen.main.bounds.width, y: 0)
@@ -140,20 +146,12 @@ class FriendsFotoGallaryViewController: UIViewController {
                             })
                         }
                         interactiveAnimator.startAnimation()                    }
-                    
+
                 }
-                
-                
-                      
 
             default:
                 return
-        
-
-
         }
-        
-
     }
 
 }

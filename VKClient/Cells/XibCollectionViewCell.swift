@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Nuke
 
 protocol XibCollectionViewCellDelegate: AnyObject {
     func pressLikeButton(isLikeOn: Bool, indexOfPicture: Int)
@@ -51,18 +52,22 @@ class XibCollectionViewCell: UICollectionViewCell {
     }
     
     
-    func configure(image: Foto, indexOfPicture: Int) {
+    func configure(image: RealmPhoto, indexOfPicture: Int) {
         self.indexOfPicture = indexOfPicture
-        imageCoolectionViewCell.image = image.foto
-        likesLabel.text = String(image.countLikes)
+
+        guard let urlPhoto = image.sizes.first?.src else { return }
+
+        guard let url = URL(string: urlPhoto) else { return }
+        Nuke.loadImage(with: url, into: imageCoolectionViewCell)
+        likesLabel.text = String(image.count)
         
-        if image.isLikeOn {
+        if image.userlikes == 1 {
             heartImageView.image = UIImage(named: "like")
         }
         else {
             heartImageView.image = UIImage(named: "dontlike")
         }
-        countLike = image.countLikes
+        countLike = image.count
     }
     
     

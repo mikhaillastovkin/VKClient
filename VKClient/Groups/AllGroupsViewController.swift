@@ -14,13 +14,7 @@ class AllGroupsViewController: UIViewController {
     var allGroups = [Groups]()
     
     func setupGroup() -> [Groups] {
-        var resultArray = [Groups]()
-        
-        let firstGoup = Groups(title: "Любители поесть", image: UIImage(named: "11")!)
-        resultArray.append(firstGoup)
-        
-        let secondGroup = Groups(title: "Любители поспать", image: UIImage(named: "12")!)
-        resultArray.append(secondGroup)
+        let resultArray = [Groups]()
         
         return resultArray
     }
@@ -67,7 +61,7 @@ extension AllGroupsViewController: UITableViewDataSource, UITableViewDelegate {
             return UITableViewCell()
         }
         
-        cell.configure(group: allGroups[indexPath.row])
+//        cell.configure(group: allGroups[indexPath.row])
         
         return cell
     }

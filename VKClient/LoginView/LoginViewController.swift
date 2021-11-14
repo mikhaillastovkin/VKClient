@@ -59,7 +59,6 @@ extension LoginViewController: WKNavigationDelegate {
                 dict[key] = val
                 return dict
             }
-        print(params)
         Singletone.share.token = params["access_token"] ?? ""
         Singletone.share.idUser = params["user_id"] ?? "0"
 
