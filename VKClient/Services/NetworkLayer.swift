@@ -7,12 +7,12 @@
 
 import Foundation
 import Alamofire
+import RealmSwift
 
 final class NetworkLayer {
 
     func getFriends(
-        for user: String,
-        complition: @escaping ([Users]) -> Void) {
+        for user: String) {
         let baseUrl = "https://api.vk.com/method"
         let baseMethod = "/friends.get"
         let parametrs: Parameters = [
@@ -22,22 +22,22 @@ final class NetworkLayer {
             "v" : "5.131",]
         AF.request(baseUrl + baseMethod, method: .get, parameters: parametrs).responseJSON { json in
             guard json.error == nil, let jsonData = json.data else {
-                return complition([])
+                return
             }
             do {
                 let friends = try JSONDecoder().decode(VKResonse<Users>.self, from: jsonData)
+                let realmFriends = friends.response.items.map { RealmUsers(user: $0) }
                 DispatchQueue.main.async {
-                    complition(friends.response.items)
+                    try? RealmService.save(items: realmFriends)
                 }
             } catch {
-                print(json.error)
+                print(error)
             }
         }
     }
 
     func getFoto(
-        for user: String,
-        complition: @escaping ([Items]) -> Void) {
+        for user: String) {
         let baseUrl = "https://api.vk.com/method"
         let baseMethod = "/photos.getAll"
         let parametrs: Parameters = [
@@ -50,22 +50,21 @@ final class NetworkLayer {
         AF.request(baseUrl + baseMethod, method: .get, parameters: parametrs).responseJSON { json in
             guard json.error == nil,
                   let jsonData = json.data
-            else { return complition([])}
+            else { return }
             do {
                 let foto = try JSONDecoder().decode(VKResonsePhoto.self, from: jsonData)
+                let realmPhoto = foto.response.items.map { RealmPhoto(photo: $0, user: user)}
                 DispatchQueue.main.async {
-                    complition(foto.response.items)
+                    try? RealmService.save(items: realmPhoto)
                 }
             } catch {
-                print(json.error)
-
+                print(error)
             }
         }
     }
 
     func getGroup(
-        for user: String,
-        complition: @escaping ([Groups]) -> Void) {
+        for user: String) {
         let baseUrl = "https://api.vk.com/method"
         let baseMethod = "/groups.get"
         let parametrs: Parameters = [
@@ -76,14 +75,16 @@ final class NetworkLayer {
         AF.request(baseUrl + baseMethod, method: .get, parameters: parametrs).responseJSON { json in
             guard json.error == nil,
                     let jsonData = json.data
-            else { return complition([])}
+            else { return }
             do {
                 let groups = try JSONDecoder().decode(VKResonse<Groups>.self, from: jsonData)
+                let realmGroup = groups.response.items.map { RealmGroups(group: $0) }
                 DispatchQueue.main.async {
-                    complition(groups.response.items)
+                    try? RealmService.save(items: realmGroup)
+                    
                 }
-            } catch {
-                print(json.error)
+                } catch {
+                print(error)
             }
         }
     }

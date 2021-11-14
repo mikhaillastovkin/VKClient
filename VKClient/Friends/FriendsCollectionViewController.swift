@@ -6,12 +6,15 @@
 //
 
 import UIKit
+import RealmSwift
 
 class FriendsCollectionViewController: UIViewController {
 
     @IBOutlet weak var friendsCollectionView: UICollectionView!
     
-    var fotoArray = [Items]()
+    var fotoArray: Results<RealmPhoto>?
+    var notifationToken: NotificationToken?
+
     var userID = String()
     var indexS = 0
 
@@ -20,18 +23,23 @@ class FriendsCollectionViewController: UIViewController {
     let reuseIdentifierXibCollectionViewCell = "reuseIdentifierXibCollectionViewCell"
     let segueFromCollectionToGallaryIdentofier = "SegueFromCollectionToGallary"
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        self.friendsCollectionView.reloadData()
-        let backButton = UIBarButtonItem(image: UIImage(systemName: "chevron.left"), style: .plain, target: self, action: #selector(pressBackButton))
-        self.navigationItem.setLeftBarButton(backButton, animated: false)
-    }
+//    override func viewWillAppear(_ animated: Bool) {
+//        super.viewWillAppear(animated)
+//        self.friendsCollectionView.reloadData()
+//        let backButton = UIBarButtonItem(image: UIImage(systemName: "chevron.left"), style: .plain, target: self, action: #selector(pressBackButton))
+//        self.navigationItem.setLeftBarButton(backButton, animated: false)
+//    }
     
-    @objc func pressBackButton() {        
-        performSegue(withIdentifier: "unwindToFriends", sender: fotoArray)
+//    @objc func pressBackButton() {        
+//        performSegue(withIdentifier: "unwindToFriends", sender: fotoArray)
+//    }
+
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        notifationToken?.invalidate()
     }
 
-    
+
     override func viewDidLoad() {
         friendsCollectionView.dataSource = self
         friendsCollectionView.delegate = self
@@ -42,44 +50,43 @@ class FriendsCollectionViewController: UIViewController {
         }
 
     func loadPhoto() {
-        nwl.getFoto(for: userID) { [weak self] photos in
-
-            guard let self = self else { return }
-
-            for photo in photos {
-                photo.sizes.map { $0.width == 75 }
+        nwl.getFoto(for: userID)
+        fotoArray = try? RealmService.load(typeOf: RealmPhoto.self)
+            .filter(NSPredicate(format: "user = '\(userID)'"))
+        notifationToken = fotoArray?.observe { [weak self] changes in
+            switch changes {
+            case .initial(let objects):
+                if objects.count > 0 {
+                    self?.friendsCollectionView.reloadData()
                 }
-
-            self.fotoArray = photos
-            self.friendsCollectionView.reloadData()
+            case let .update(results, deletions, insertions, modifications):
+                self?.friendsCollectionView.reloadData()
+            case .error(let error):
+                print(error)
             }
-
-
-
         }
     }
+}
 
 
 extension FriendsCollectionViewController: UICollectionViewDataSource {
-    
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
-    }
+
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return fotoArray.count
+        return fotoArray?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifierXibCollectionViewCell, for: indexPath) as? XibCollectionViewCell else { return UICollectionViewCell()}
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifierXibCollectionViewCell, for: indexPath) as? XibCollectionViewCell,
+              let unFotoArray = fotoArray?[indexPath.row]
+        else { return UICollectionViewCell()}
         
-        cell.configure(image: fotoArray[indexPath.row], indexOfPicture: indexPath.item)
+        cell.configure(image: unFotoArray, indexOfPicture: indexPath.item)
         cell.delegate = self
         
         return cell
         
     }
-    
 }
 
 
@@ -107,7 +114,6 @@ extension FriendsCollectionViewController: UICollectionViewDelegate {
         print(indexS)
         performSegue(withIdentifier: segueFromCollectionToGallaryIdentofier, sender: nil)
     }
-    
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == segueFromCollectionToGallaryIdentofier,
