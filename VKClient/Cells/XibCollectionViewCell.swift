@@ -12,10 +12,7 @@ protocol XibCollectionViewCellDelegate: AnyObject {
     func pressLikeButton(isLikeOn: Bool, indexOfPicture: Int)
 }
 
-
-
-
-class XibCollectionViewCell: UICollectionViewCell {
+final class XibCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var imageCoolectionViewCell: UIImageView!
     @IBOutlet weak var likesLabel: UILabel!

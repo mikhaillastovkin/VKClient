@@ -5,13 +5,34 @@
 //  Created by Михаил Ластовкин on 05.07.2021.
 //
 
-import UIKit
-
+import Foundation
 
 struct News {
-    var imageUser: UIImage
-    var nameUser: String
-    var fotoUser: UIImage
-    var likeButton = false
-    var likeCount = 0
+
+    let header: HeaderNews
+    let text: TextNews
+    let image: ImageNews
+    let footer: FooterNews
+}
+
+struct HeaderNews {
+
+    let datePost: Date
+    let imageUser: String
+    let nameUser: String
+    let countViews: Int
+}
+
+struct TextNews {
+    let textNews: String?
+}
+
+struct ImageNews {
+    let imageNews: String?
+}
+
+struct FooterNews {
+    let countLikes: Int
+    let countShareds: Int
+    let countComments: Int
 }
