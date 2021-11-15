@@ -5,7 +5,7 @@
 //  Created by Михаил Ластовкин on 27.06.2021.
 //
 
-import UIKit
+import Foundation
 
 struct Users: Decodable {
     let firstName: String
