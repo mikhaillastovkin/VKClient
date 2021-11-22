@@ -38,8 +38,8 @@ final class NewsTextTableViewCell: UITableViewCell {
     }
 
     //MARK: - Public configure method
-    func configure(news: TextNews) {
-        textLabelCell.text = news.textNews
+    func configure(news: News) {
+        textLabelCell.text = news.text
     }
 
 }

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Nuke
 
 final class NewsHeaderTableViewCell: UITableViewCell {
 
@@ -50,12 +51,12 @@ final class NewsHeaderTableViewCell: UITableViewCell {
     }
 
     //MARK: - Public configure methods
-    func configure(news: HeaderNews) {
-        imageUser.image = UIImage(named: news.imageUser)
-        nameUserLabel.text = news.nameUser
-        dataFormate.dateFormat = "d MMMM HH:mm"
-        dataFormate.locale = Locale(identifier: "ru_RU")
-        dateLabel.text = "\(dataFormate.string(from: news.datePost))  👁 \(String(news.countViews))"
+    func configure(news: News) {
+        guard let url = URL(string: news.sourseImg)
+        else { return }
+        Nuke.loadImage(with: url, into: imageUser)
+        nameUserLabel.text = String(news.sourse)
+        dateLabel.text = "\(news.date)  👁 \(news.view)"
     }
     
 }

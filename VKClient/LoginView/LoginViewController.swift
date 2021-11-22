@@ -30,7 +30,7 @@ final class LoginViewController: UIViewController {
             "client_id" : appId,
             "redirect_uri" : "https://oauth.vk.com/blank.html",
             "display" : "mobile",
-            "scope" : "262150",
+            "scope" : "270342",
             "response_type" : "token",]
         let request = AF.request(baseUrl, method: .get, parameters: parametrs)
         guard let loadRequest = request.convertible.urlRequest else { return }

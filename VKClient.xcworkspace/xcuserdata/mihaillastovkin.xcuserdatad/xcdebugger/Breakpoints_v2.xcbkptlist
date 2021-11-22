@@ -190,8 +190,8 @@
             filePath = "VKClient/Services/NetworkLayer.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "28"
-            endingLineNumber = "28"
+            startingLineNumber = "76"
+            endingLineNumber = "76"
             landmarkName = "getFriends(for:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -238,8 +238,8 @@
             filePath = "VKClient/Services/NetworkLayer.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "41"
-            endingLineNumber = "41"
+            startingLineNumber = "89"
+            endingLineNumber = "89"
             landmarkName = "getFoto(for:)"
             landmarkType = "7">
          </BreakpointContent>
