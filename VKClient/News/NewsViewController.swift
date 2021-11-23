@@ -6,60 +6,17 @@
 //
 
 import UIKit
-
 final class NewsViewController: UIViewController {
 
+    let newsStorage = NewsStorage()
     var newsArray = [News]()
+    let nwl = NetworkLayer()
     
     @IBOutlet weak var newsTableView: UITableView!
-    
-    func  setupNews() -> [News] {
-        var resultNewsArray = [News]()
-        
-        let firstNews = News(
-            header: HeaderNews(datePost: Date(),
-                               imageUser: "11",
-                               nameUser: "Иван Иванов",
-                               countViews: 20),
-            text: TextNews(textNews: "Когда человек сознательно или интуитивно выбирает себе в жизни какую-то цель, жизненную задачу, он невольно дает себе оценку. По тому, ради чего человек живет, можно судить и о его самооценке - низкой или высокой. Если человек живет, чтобы приносить людям добро, облегчать их страдания, давать людям радость, то он оценивает себя на уровне этой своей человечности. Он ставит себе цель, достойную человека."),
-            image: ImageNews(imageNews: nil),
-            footer: FooterNews(countLikes: 16,
-                               countShareds: 7,
-                               countComments: 228))
-        
 
-        let secondNews = News(
-            header: HeaderNews(datePost: Date(),
-                               imageUser: "12",
-                               nameUser: "Петр Петров",
-                               countViews: 37),
-            text: TextNews(textNews: "Когда человек сознательно или интуитивно выбирает себе в жизни какую-то цель, жизненную задачу, он невольно дает себе оценку. По тому, ради чего человек живет, можно судить и о его самооценке - низкой или высокой. Если человек живет, чтобы приносить людям добро, облегчать их страдания, давать людям радость, то он оценивает себя на уровне этой своей человечности. Он ставит себе цель, достойную человека."),
-            image: ImageNews(imageNews: "7"),
-            footer: FooterNews(countLikes: 5,
-                               countShareds: 18,
-                               countComments: 15))
-
-
-        let thirdNews = News(
-            header: HeaderNews(datePost: Date(),
-                               imageUser: "13",
-                               nameUser: "Семен Семенов",
-                               countViews: 45),
-            text: TextNews(textNews: nil),
-            image: ImageNews(imageNews: "14"),
-            footer: FooterNews(countLikes: 1,
-                               countShareds: 98,
-                               countComments: 2))
-        
-        resultNewsArray.append(firstNews)
-        resultNewsArray.append(secondNews)
-        resultNewsArray.append(thirdNews)
-    
-        return resultNewsArray
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         newsTableView.dataSource = self
         newsTableView.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
 
@@ -79,7 +36,14 @@ final class NewsViewController: UIViewController {
             UINib(nibName: NewFooterTableViewCell.identifire,
                   bundle: nil),
             forCellReuseIdentifier: NewFooterTableViewCell.identifire)
-        newsArray = setupNews()
+
+        DispatchQueue.global().async {
+            self.nwl.getNewsFeed(filter: .post) { [weak self] items, groups, profiles in
+                guard let self = self else { return }
+                self.newsArray = self.newsStorage.getNews(items, groups, profiles)
+                self.newsTableView.reloadData()
+            }
+        }
     }
 
 }
@@ -104,7 +68,7 @@ extension NewsViewController: UITableViewDataSource {
             else {
                 return UITableViewCell()
             }
-            cell.configure(news: newsArray[indexPath.section].header)
+            cell.configure(news: newsArray[indexPath.section])
             return cell
 
 
@@ -114,7 +78,7 @@ extension NewsViewController: UITableViewDataSource {
             else {
                 return UITableViewCell()
             }
-            cell.configure(news: newsArray[indexPath.section].text)
+            cell.configure(news: newsArray[indexPath.section])
             cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: tableView.bounds.width)
             return cell
 
@@ -126,7 +90,7 @@ extension NewsViewController: UITableViewDataSource {
                 return UITableViewCell()
             }
 
-            cell.configure(image: newsArray[indexPath.section].image)
+            cell.configure(image: newsArray[indexPath.section])
             cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: tableView.bounds.width)
             return cell
 
@@ -134,7 +98,7 @@ extension NewsViewController: UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: NewFooterTableViewCell.identifire, for: indexPath) as? NewFooterTableViewCell else {
                 return UITableViewCell()
             }
-            cell.configure(news: newsArray[indexPath.section].footer)
+            cell.configure(news: newsArray[indexPath.section])
             return cell
 
         default:

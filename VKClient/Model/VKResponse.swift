@@ -10,7 +10,7 @@ struct VKResonse<T: Decodable> : Decodable {
     let response : Response<T>
 
     enum CodingKeys: String, CodingKey {
-        case response
+        case response = "response"
     }
 
 }

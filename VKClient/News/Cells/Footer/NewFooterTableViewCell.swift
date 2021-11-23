@@ -65,10 +65,10 @@ final class NewFooterTableViewCell: UITableViewCell {
     }
 
     //MARK: - Public configure cell
-    func configure(news: FooterNews) {
-        likeLabel.text = String(news.countLikes)
-        shareLabel.text = String(news.countShareds)
-        commentLabel.text = String(news.countComments)
+    func configure(news: News) {
+        likeLabel.text = news.likeCount
+        shareLabel.text = news.repostsCount
+        commentLabel.text = news.commentCount
     }
 
 }

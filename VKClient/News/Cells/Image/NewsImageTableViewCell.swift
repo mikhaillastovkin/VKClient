@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Nuke
 
 final class NewsImageTableViewCell: UITableViewCell {
 
@@ -38,11 +39,12 @@ final class NewsImageTableViewCell: UITableViewCell {
     }
 
     //MARK: - Public configure method
-    func configure(image: ImageNews) {
-        if let nameImage = image.imageNews {
-            imageCell.image = UIImage(named: nameImage)
-        } else {
-            
+    func configure(image: News) {
+        if image.image != "" {
+            guard let url = URL(string: image.image)
+            else { return }
+            Nuke.loadImage(with: url, into: imageCell)
         }
     }
+    
 }
