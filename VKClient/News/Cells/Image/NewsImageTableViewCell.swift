@@ -40,6 +40,7 @@ final class NewsImageTableViewCell: UITableViewCell {
 
     //MARK: - Public configure method
     func configure(image: News) {
+        Nuke.cancelRequest(for: imageCell)
         if image.image != "" {
             guard let url = URL(string: image.image)
             else { return }
