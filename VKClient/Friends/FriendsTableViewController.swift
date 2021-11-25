@@ -15,6 +15,7 @@ final class FriendsTableViewController: UIViewController {
     
     let segueFromTableToCollection = "fromTableToCollection"
     let reuseIdentifierXibTableViewCell = "reuseIdentifierXibTableViewCell"
+    let operationQueue = OperationQueue()
 
     let nwl = NetworkLayer()
 
@@ -40,6 +41,8 @@ final class FriendsTableViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        loadFriends()
+
         friendsTableView.dataSource = self
         friendsTableView.delegate = self
         searchBarFriends.delegate = self
@@ -47,27 +50,32 @@ final class FriendsTableViewController: UIViewController {
         
         friendsTableView.register(UINib(nibName: "XibTableViewCell", bundle: nil), forCellReuseIdentifier: reuseIdentifierXibTableViewCell)
 
-        loadFriends()
 
     }
 
     private func loadFriends(){
-        nwl.getFriends(for: Singletone.share.idUser)
-        friendsArray = try? RealmService.load(typeOf: RealmUsers.self).sorted(byKeyPath: "name")
-
-        notifationToken = friendsArray?.observe { [weak self] changes in
-            switch changes {
-            case .initial(let objects):
-                if objects.count > 0 {
-                    self?.friendsTableView.reloadData()
+        let loadFriendOperation = LoadFriendsOperation(forUser: Singletone.share.idUser)
+        let loadFriendToRealmOperation = LoadFriendsToRealmOperation()
+        loadFriendToRealmOperation.addDependency(loadFriendOperation)
+        operationQueue.addOperation(loadFriendOperation)
+        operationQueue.addOperation(loadFriendToRealmOperation)
+        loadFriendToRealmOperation.completionBlock = {
+            OperationQueue.main.addOperation {
+                self.friendsArray = try? RealmService.load(typeOf: RealmUsers.self).sorted(byKeyPath: "name")
+                self.notifationToken = self.friendsArray?.observe { [weak self] changes in
+                    switch changes {
+                    case .initial(let objects):
+                        if objects.count > 0 {
+                            self?.friendsTableView.reloadData()
+                        }
+                    case let .update(results, deletions, insertions, modifications):
+                        self?.friendsTableView.reloadData()
+                    case .error(let error):
+                        print(error)
+                    }
                 }
-            case let .update(results, deletions, insertions, modifications):
-                self?.friendsTableView.reloadData()
-            case .error(let error):
-                print(error)
             }
         }
-
     }
 
     private func loadSearchFriends(searchText: String){
