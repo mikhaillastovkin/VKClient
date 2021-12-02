@@ -43,6 +43,7 @@ final class LoadFriendsOperation: AsyncOperation {
         }
 
     override func main() {
+        guard !isCancelled else { return }
         self.getFriends(for: idUser) { users in
             self.friends = users.response.items
             self.state = .finished
