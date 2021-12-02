@@ -18,6 +18,9 @@
 		74157B6427149E5E005FE462 /* Nuke in Frameworks */ = {isa = PBXBuildFile; productRef = 74157B6327149E5E005FE462 /* Nuke */; };
 		741BEC252715D7AF00284B42 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 741BEC242715D7AF00284B42 /* Photo.swift */; };
 		742174C826A059EA001C504A /* FriendsFotoGallaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742174C726A059EA001C504A /* FriendsFotoGallaryViewController.swift */; };
+		74241D84274F47570067FE54 /* AsyncOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74241D83274F47570067FE54 /* AsyncOperation.swift */; };
+		74241D86274F47CC0067FE54 /* LoadFriendsOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74241D85274F47CC0067FE54 /* LoadFriendsOperation.swift */; };
+		74241D88274F53C90067FE54 /* LoadFriendsToRealmOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74241D87274F53C90067FE54 /* LoadFriendsToRealmOperation.swift */; };
 		7424F0FB270B311E006B8B4E /* Singletone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7424F0FA270B311E006B8B4E /* Singletone.swift */; };
 		745DC6F4274A7FF900E99B54 /* NewsStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745DC6F3274A7FF900E99B54 /* NewsStorage.swift */; };
 		7463CEF8274290C6001BAD09 /* NewsTextTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7463CEF6274290C6001BAD09 /* NewsTextTableViewCell.swift */; };
@@ -64,6 +67,9 @@
 		74157B6027141B67005FE462 /* VKResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VKResponse.swift; sourceTree = "<group>"; };
 		741BEC242715D7AF00284B42 /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
 		742174C726A059EA001C504A /* FriendsFotoGallaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsFotoGallaryViewController.swift; sourceTree = "<group>"; };
+		74241D83274F47570067FE54 /* AsyncOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncOperation.swift; sourceTree = "<group>"; };
+		74241D85274F47CC0067FE54 /* LoadFriendsOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadFriendsOperation.swift; sourceTree = "<group>"; };
+		74241D87274F53C90067FE54 /* LoadFriendsToRealmOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadFriendsToRealmOperation.swift; sourceTree = "<group>"; };
 		7424F0FA270B311E006B8B4E /* Singletone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Singletone.swift; sourceTree = "<group>"; };
 		745DC6F3274A7FF900E99B54 /* NewsStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsStorage.swift; sourceTree = "<group>"; };
 		7463CEF6274290C6001BAD09 /* NewsTextTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsTextTableViewCell.swift; sourceTree = "<group>"; };
@@ -129,6 +135,7 @@
 			children = (
 				7424F0F9270B310A006B8B4E /* Core */,
 				747445092692F0E60084787D /* News */,
+				74241D82274F47330067FE54 /* Operations */,
 				74E9DBCE2688EFF600473348 /* Model */,
 				742DB757268B7C5600359147 /* Friends */,
 				742DB758268B7C8100359147 /* Groups */,
@@ -144,6 +151,16 @@
 				740B78812675FAB900BE773E /* Info.plist */,
 			);
 			path = VKClient;
+			sourceTree = "<group>";
+		};
+		74241D82274F47330067FE54 /* Operations */ = {
+			isa = PBXGroup;
+			children = (
+				74241D83274F47570067FE54 /* AsyncOperation.swift */,
+				74241D85274F47CC0067FE54 /* LoadFriendsOperation.swift */,
+				74241D87274F53C90067FE54 /* LoadFriendsToRealmOperation.swift */,
+			);
+			path = Operations;
 			sourceTree = "<group>";
 		};
 		7424F0F9270B310A006B8B4E /* Core */ = {
@@ -433,6 +450,8 @@
 				746AED8D270F2FFD009B3E54 /* NetworkLayer.swift in Sources */,
 				74E9DBD42688F23900473348 /* MainTabbarController.swift in Sources */,
 				7463CEFC2742956A001BAD09 /* NewsImageTableViewCell.swift in Sources */,
+				74241D84274F47570067FE54 /* AsyncOperation.swift in Sources */,
+				74241D88274F53C90067FE54 /* LoadFriendsToRealmOperation.swift in Sources */,
 				74E9DBD22688F16700473348 /* Groups.swift in Sources */,
 				74157B6127141B67005FE462 /* VKResponse.swift in Sources */,
 				74E9DBD02688F00A00473348 /* Users.swift in Sources */,
@@ -442,6 +461,7 @@
 				74E82AA426824D8B00D7EA15 /* GroupsViewController.swift in Sources */,
 				745DC6F4274A7FF900E99B54 /* NewsStorage.swift in Sources */,
 				74E82AB2268274D500D7EA15 /* AllGroupsViewController.swift in Sources */,
+				74241D86274F47CC0067FE54 /* LoadFriendsOperation.swift in Sources */,
 				7468D7AD271F2E2200F89229 /* RealmGroups.swift in Sources */,
 				740B78742675FAAF00BE773E /* AppDelegate.swift in Sources */,
 				74E82A9F2682267500D7EA15 /* XibTableViewCell.swift in Sources */,
