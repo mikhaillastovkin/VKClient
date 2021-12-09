@@ -8,6 +8,7 @@
 import Foundation
 import Alamofire
 import RealmSwift
+import PromiseKit
 
 final class NetworkLayer {
     
@@ -111,26 +112,19 @@ final class NetworkLayer {
         }
     
     func getGroup(
-        for user: String) {
+        for user: String) -> Promise<Data> {
             let baseMethod = "/groups.get"
             let parametrs: Parameters = [
                 "user_id" : user,
                 "extended" : true,
                 "access_token" : Singletone.share.token,
                 "v" : "5.131",]
-            AF.request(baseUrl + baseMethod, method: .get, parameters: parametrs).responseJSON { json in
-                guard json.error == nil,
-                      let jsonData = json.data
-                else { return }
-                do {
-                    let groups = try JSONDecoder().decode(VKResonse<Groups>.self, from: jsonData)
-                    let realmGroup = groups.response.items.map { RealmGroups(group: $0) }
-                    DispatchQueue.main.async {
-                        try? RealmService.save(items: realmGroup)
-                        
-                    }
-                } catch {
-                    print(error)
+            return Promise { seal in
+                AF.request(baseUrl + baseMethod, method: .get, parameters: parametrs).responseJSON { json in
+                    guard json.error == nil,
+                          let jsonData = json.data
+                    else { return seal.reject(json.error as! Error)}
+                    seal.fulfill(jsonData)
                 }
             }
         }
