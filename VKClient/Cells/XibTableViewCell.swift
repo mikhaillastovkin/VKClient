@@ -23,6 +23,8 @@ class XibTableViewCell: UITableViewCell {
     
     func setup() {
         labelCell.font = .boldSystemFont(ofSize: 18)
+        labelCell.backgroundColor = .systemBackground
+        labelCell.isOpaque = true
         imageCell.layer.cornerRadius = 25
         imageCellView.layer.cornerRadius = 25
         imageCellView.layer.shadowColor = shadowColor.cgColor

@@ -8,6 +8,14 @@
 import Foundation
 
 final class NewsStorage {
+
+    var dataFormate: DateFormatter {
+        let dataFormate = DateFormatter()
+        dataFormate.dateFormat = "d MMMM HH:mm"
+        dataFormate.locale = Locale(identifier: "ru_RU")
+        return dataFormate
+    }
+
     private func getSourse(item: VkNewsItems, groups: [VkNewsGroups], profiles: [VkNewsProfiles]) -> String {
         var name = String()
 
@@ -28,9 +36,6 @@ final class NewsStorage {
     }
 
     private func getData(item: VkNewsItems) -> String {
-        let dataFormate = DateFormatter()
-        dataFormate.dateFormat = "d MMMM HH:mm"
-        dataFormate.locale = Locale(identifier: "ru_RU")
         let date = dataFormate.string(from: item.date)
         return date
     }

@@ -53,11 +53,14 @@ final class NewFooterTableViewCell: UITableViewCell {
     private func setupLabel(_ label: UILabel) {
         label.textColor = colorElements
         label.font = fontElements
+        label.backgroundColor = .systemBackground
+        label.isOpaque = true
     }
 
     private func setupCell() {
         setupButton(likeButton, systemImage: "heart")
         setupLabel(likeLabel)
+        likeLabel.backgroundColor = .systemBackground
         setupButton(shareButton, systemImage: "arrowshape.turn.up.right")
         setupLabel(shareLabel)
         setupButton(commentButton, systemImage: "bubble.left")
