@@ -35,6 +35,8 @@ final class NewsTextTableViewCell: UITableViewCell {
 
     private func setupCell() {
         textLabelCell.numberOfLines = 0
+        textLabelCell.backgroundColor = .systemBackground
+        textLabelCell.isOpaque = true
     }
 
     //MARK: - Public configure method
