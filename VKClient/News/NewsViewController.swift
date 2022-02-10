@@ -11,14 +11,18 @@ final class NewsViewController: UIViewController {
     let newsStorage = NewsStorage()
     var newsArray = [News]()
     let nwl = NetworkLayer()
-    
+    var fromStart = String()
+    var isLoading = false
+
     @IBOutlet weak var newsTableView: UITableView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         newsTableView.dataSource = self
+        newsTableView.delegate = self
         newsTableView.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        newsTableView.prefetchDataSource = self
 
         newsTableView.register(
             UINib(nibName: NewsHeaderTableViewCell.identifire,
@@ -37,13 +41,34 @@ final class NewsViewController: UIViewController {
                   bundle: nil),
             forCellReuseIdentifier: NewFooterTableViewCell.identifire)
 
+        setRefreshControl()
+        loadNews()
+
+    }
+
+    private func loadNews() {
         DispatchQueue.global().async {
-            self.nwl.getNewsFeed(filter: .post) { [weak self] items, groups, profiles in
+            self.nwl.getNewsFeed(filter: .post, startFrom: nil) { [weak self] items, groups, profiles, startFrom  in
                 guard let self = self else { return }
+                self.fromStart = startFrom
                 self.newsArray = self.newsStorage.getNews(items, groups, profiles)
                 self.newsTableView.reloadData()
             }
         }
+    }
+
+    private func setRefreshControl() {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(
+            self,
+            action: #selector(didRefresh),
+            for: .valueChanged)
+        newsTableView.refreshControl = refreshControl
+    }
+
+    @objc private func didRefresh() {
+        loadNews()
+        newsTableView.refreshControl?.endRefreshing()
     }
 
 }
@@ -106,6 +131,50 @@ extension NewsViewController: UITableViewDataSource {
         }
     }
 
+}
+
+extension NewsViewController: UITableViewDataSourcePrefetching {
+
+    func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
+        guard let maxSection = indexPaths.map({ $0.section}).max()
+        else { return }
+        if maxSection > newsArray.count - 3,
+           !isLoading {
+            isLoading = true
+            nwl.getNewsFeed(filter: .post, startFrom: fromStart) { [weak self] items, groups, profiles, startFrom in
+                guard let self = self else { return }
+                self.fromStart = startFrom
+                let indexSet = IndexSet(
+                    integersIn: self.newsArray.count ..< self.newsArray.count + items.count)
+                self.newsStorage.getNews(items, groups, profiles).forEach { self.newsArray.append($0)
+                }
+                self.newsTableView.insertSections(indexSet, with: .automatic)
+                self.isLoading = false
+
+            }
+        }
+    }
+
+}
+
+extension NewsViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        switch indexPath.row {
+        case 1 :
+            if newsArray[indexPath.section].text == "" {
+                return .leastNonzeroMagnitude
+            } else {
+                return 50
+            }
+        case 2 :
+            let tableWight = tableView.bounds.width
+            let news = self.newsArray[indexPath.section]
+            let cellHeigh = tableWight * news.aspectRatio
+            return cellHeigh
+        default:
+            return UITableView.automaticDimension
+        }
+    }
 }
 
 
