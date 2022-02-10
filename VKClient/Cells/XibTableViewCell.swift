@@ -7,6 +7,7 @@
 
 import UIKit
 import Nuke
+import RealmSwift
 
 class XibTableViewCell: UITableViewCell {
     
@@ -22,7 +23,7 @@ class XibTableViewCell: UITableViewCell {
     var saveObject: Any?
     
     func setup() {
-        labelCell.font = .boldSystemFont(ofSize: 18)
+        labelCell.font = UIFont.userNameFont
         labelCell.backgroundColor = .systemBackground
         labelCell.isOpaque = true
         imageCell.layer.cornerRadius = 25
@@ -63,7 +64,7 @@ class XibTableViewCell: UITableViewCell {
     }
     
     
-    func configure(user: RealmUsers) {
+    func configure(user: Users) {
         saveObject = user
         labelCell.text = user.name
         guard let url = URL(string: user.photo) else { return }

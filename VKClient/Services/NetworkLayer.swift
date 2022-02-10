@@ -66,7 +66,8 @@ final class NetworkLayer {
     }
     
     func getFriends(
-        for user: String) {
+        for user: String,
+        complition: @escaping([Users]) -> Void) {
             let baseMethod = "/friends.get"
             let parametrs: Parameters = [
                 "user_id" : Singletone.share.idUser,
@@ -82,6 +83,8 @@ final class NetworkLayer {
                     let realmFriends = friends.response.items.map { RealmUsers(user: $0) }
                     DispatchQueue.main.async {
                         try? RealmService.save(items: realmFriends)
+                        complition(friends.response.items)
+
                     }
                 } catch {
                     print(error)
