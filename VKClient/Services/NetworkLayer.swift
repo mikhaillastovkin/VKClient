@@ -21,17 +21,19 @@ final class NetworkLayer {
     }
     
     
-    func getNewsFeed(filter: FilterNews, complition: @escaping ([VkNewsItems], [VkNewsGroups], [VkNewsProfiles]) -> Void) {
+    func getNewsFeed(filter: FilterNews, startFrom: String?, complition: @escaping ([VkNewsItems], [VkNewsGroups], [VkNewsProfiles], String) -> Void) {
         var newsItems = [VkNewsItems]()
         var newsGroups = [VkNewsGroups]()
         var newsProfiles = [VkNewsProfiles]()
+        var newsStartFrom = String()
 
         let decodeVkNewsDG = DispatchGroup()
         let baseMethod = "/newsfeed.get"
         let parametrs: Parameters = [
             "access_token" : Singletone.share.token,
             "filters" : filter,
-            "count" : 100,
+            "start_from" : startFrom,
+            "count" : 10,
             "v" : "5.131",
         ]
         AF.request(self.baseUrl + baseMethod, method: .get, parameters: parametrs).responseJSON { json in
@@ -42,6 +44,7 @@ final class NetworkLayer {
                 do {
                     let items = try JSONDecoder().decode(VkNews<VkNewsResonseItems>.self, from: jsonData)
                     newsItems = items.response.items
+                    newsStartFrom = items.response.nextFrom
                 }
                 catch { print(error) }
                 do {
@@ -54,9 +57,10 @@ final class NetworkLayer {
                     newsProfiles = profiles.response.profiles
                 }
                 catch { print(error)}
+
             }
             decodeVkNewsDG.notify(queue: DispatchQueue.main) {
-                complition(newsItems, newsGroups, newsProfiles)
+                complition(newsItems, newsGroups, newsProfiles, newsStartFrom)
             }
         }
     }

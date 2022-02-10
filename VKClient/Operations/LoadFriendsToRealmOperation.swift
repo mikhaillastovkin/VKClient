@@ -17,6 +17,7 @@ final class LoadFriendsToRealmOperation: AsyncOperation {
 
         let loadFriends = loadFriendsOperation.friends
         let realmFriends = loadFriends.map { RealmUsers(user: $0)}
+        try? RealmService.save(items: realmFriends)
         self.state = .finished
     }
     

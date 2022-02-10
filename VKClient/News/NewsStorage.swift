@@ -111,7 +111,8 @@ final class NewsStorage {
                     isLike: isLike,
                     repostsCount: String(item.comments.count),
                     isReposted: isReposted,
-                    commentCount: String(item.reposts.count)
+                    commentCount: String(item.reposts.count),
+                    aspectRatio: item.attachments?.first?.photo?.sizes.last?.aspectRatio ?? .zero
                 ))
 
         }
