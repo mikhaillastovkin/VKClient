@@ -25,13 +25,14 @@ final class LoginViewController: UIViewController {
 
     func loadVkToken() {
         let baseUrl = "https://oauth.vk.com/authorize"
-        let appId = "7923795"
+        let appId = "8025747"
         let parametrs: Parameters = [
             "client_id" : appId,
             "redirect_uri" : "https://oauth.vk.com/blank.html",
             "display" : "mobile",
             "scope" : "270342",
-            "response_type" : "token",]
+            "response_type" : "token",
+            "v" : "5.52"]
         let request = AF.request(baseUrl, method: .get, parameters: parametrs)
         guard let loadRequest = request.convertible.urlRequest else { return }
 

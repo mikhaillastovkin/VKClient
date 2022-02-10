@@ -14,6 +14,7 @@
 		740B787D2675FAB900BE773E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 740B787C2675FAB900BE773E /* Assets.xcassets */; };
 		740B78802675FAB900BE773E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 740B787E2675FAB900BE773E /* LaunchScreen.storyboard */; };
 		740B78882675FB2400BE773E /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 740B78872675FB2400BE773E /* LoginViewController.swift */; };
+		7412A76927B53D0F003448CF /* UIFont+Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7412A76827B53D0F003448CF /* UIFont+Ex.swift */; };
 		74157B6127141B67005FE462 /* VKResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74157B6027141B67005FE462 /* VKResponse.swift */; };
 		74157B6427149E5E005FE462 /* Nuke in Frameworks */ = {isa = PBXBuildFile; productRef = 74157B6327149E5E005FE462 /* Nuke */; };
 		741BEC252715D7AF00284B42 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 741BEC242715D7AF00284B42 /* Photo.swift */; };
@@ -64,6 +65,7 @@
 		740B787F2675FAB900BE773E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		740B78812675FAB900BE773E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		740B78872675FB2400BE773E /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		7412A76827B53D0F003448CF /* UIFont+Ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Ex.swift"; sourceTree = "<group>"; };
 		74157B6027141B67005FE462 /* VKResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VKResponse.swift; sourceTree = "<group>"; };
 		741BEC242715D7AF00284B42 /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
 		742174C726A059EA001C504A /* FriendsFotoGallaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsFotoGallaryViewController.swift; sourceTree = "<group>"; };
@@ -133,6 +135,7 @@
 		740B78722675FAAF00BE773E /* VKClient */ = {
 			isa = PBXGroup;
 			children = (
+				7412A76727B53CE8003448CF /* Flyweight */,
 				7424F0F9270B310A006B8B4E /* Core */,
 				747445092692F0E60084787D /* News */,
 				74241D82274F47330067FE54 /* Operations */,
@@ -151,6 +154,14 @@
 				740B78812675FAB900BE773E /* Info.plist */,
 			);
 			path = VKClient;
+			sourceTree = "<group>";
+		};
+		7412A76727B53CE8003448CF /* Flyweight */ = {
+			isa = PBXGroup;
+			children = (
+				7412A76827B53D0F003448CF /* UIFont+Ex.swift */,
+			);
+			path = Flyweight;
 			sourceTree = "<group>";
 		};
 		74241D82274F47330067FE54 /* Operations */ = {
@@ -231,9 +242,9 @@
 		747445092692F0E60084787D /* News */ = {
 			isa = PBXGroup;
 			children = (
-				74BA719527410201005AAD7B /* Cells */,
 				7474450C2692F1C30084787D /* NewsViewController.swift */,
 				745DC6F3274A7FF900E99B54 /* NewsStorage.swift */,
+				74BA719527410201005AAD7B /* Cells */,
 			);
 			path = News;
 			sourceTree = "<group>";
@@ -457,6 +468,7 @@
 				74E9DBD02688F00A00473348 /* Users.swift in Sources */,
 				7463CEF8274290C6001BAD09 /* NewsTextTableViewCell.swift in Sources */,
 				740B78782675FAAF00BE773E /* FriendsTableViewController.swift in Sources */,
+				7412A76927B53D0F003448CF /* UIFont+Ex.swift in Sources */,
 				74BA71B4274119C1005AAD7B /* NewFooterTableViewCell.swift in Sources */,
 				74E82AA426824D8B00D7EA15 /* GroupsViewController.swift in Sources */,
 				745DC6F4274A7FF900E99B54 /* NewsStorage.swift in Sources */,

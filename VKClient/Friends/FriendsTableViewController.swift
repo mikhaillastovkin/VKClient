@@ -19,7 +19,7 @@ final class FriendsTableViewController: UIViewController {
 
     let nwl = NetworkLayer()
 
-    var friendsArray: Results<RealmUsers>?
+    var friendsArray: [Users]?
     var notifationToken: NotificationToken?
 
     var savedIndexP = Int()
@@ -54,32 +54,41 @@ final class FriendsTableViewController: UIViewController {
     }
 
     private func loadFriends(){
-        let loadFriendOperation = LoadFriendsOperation(forUser: Singletone.share.idUser)
-        let loadFriendToRealmOperation = LoadFriendsToRealmOperation()
-        loadFriendToRealmOperation.addDependency(loadFriendOperation)
-        operationQueue.addOperation(loadFriendOperation)
-        operationQueue.addOperation(loadFriendToRealmOperation)
-        loadFriendToRealmOperation.completionBlock = {
-            OperationQueue.main.addOperation {
-                self.friendsArray = try? RealmService.load(typeOf: RealmUsers.self).sorted(byKeyPath: "name")
-                self.notifationToken = self.friendsArray?.observe { [weak self] changes in
-                    switch changes {
-                    case .initial(let objects):
-                        if objects.count > 0 {
-                            self?.friendsTableView.reloadData()
-                        }
-                    case let .update(results, deletions, insertions, modifications):
-                        self?.friendsTableView.reloadData()
-                    case .error(let error):
-                        print(error)
-                    }
-                }
-            }
+        nwl.getFriends(for: Singletone.share.idUser) { [weak self] users in
+            self?.friendsArray = users.sorted(by: { $0.name < $1.name })
+            self?.friendsTableView.reloadData()
         }
     }
 
+
+//    private func loadFriends(){
+//        let loadFriendOperation = LoadFriendsOperation(forUser: Singletone.share.idUser)
+//        let loadFriendToRealmOperation = LoadFriendsToRealmOperation()
+//        loadFriendToRealmOperation.addDependency(loadFriendOperation)
+//        operationQueue.addOperation(loadFriendOperation)
+//        operationQueue.addOperation(loadFriendToRealmOperation)
+//        loadFriendToRealmOperation.completionBlock = {
+//            OperationQueue.main.addOperation {
+//                self.friendsArray = try? RealmService.load(typeOf: RealmUsers.self).sorted(byKeyPath: "name")
+//                self.notifationToken = self.friendsArray?.observe { [weak self] changes in
+//                    switch changes {
+//                    case .initial(let objects):
+//                        if objects.count > 0 {
+//                            self?.friendsTableView.reloadData()
+//                        }
+//                    case let .update(results, deletions, insertions, modifications):
+//                        self?.friendsTableView.reloadData()
+//                    case .error(let error):
+//                        print(error)
+//                    }
+//                }
+//            }
+//        }
+//    }
+
     private func loadSearchFriends(searchText: String){
-        friendsArray = try? RealmService.load(typeOf: RealmUsers.self).filter(NSPredicate(format: "name CONTAINS[c] '\(searchText)'"))
+        friendsArray = friendsArray?.filter({ $0.name.contains(searchText)
+        })
     }
     
     @IBAction func unwindFromFriendToPhoto(_ sender: UIStoryboardSegue) {

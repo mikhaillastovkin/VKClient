@@ -42,7 +42,20 @@ class GroupsViewController: UIViewController {
     }
 
     func loadGroup() {
+
         nwl.getGroup(for: Singletone.share.idUser)
+            .map(on: .global()) { data in
+                try JSONDecoder().decode(VKResonse<Groups>.self, from: data).response.items
+            }
+            .done(on: .main) { groups in
+                let realmGroups = groups.map { RealmGroups(group: $0) }
+                try RealmService.save(items: realmGroups)
+            }
+            .catch { error in
+                print(error)
+            }
+        
+
         myGroups = try? RealmService.load(typeOf: RealmGroups.self).sorted(byKeyPath: "name")
         notifationToken = myGroups?.observe { [weak self] changes in
             switch changes {

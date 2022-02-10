@@ -45,8 +45,12 @@ final class NewsHeaderTableViewCell: UITableViewCell {
         imageUser.layer.masksToBounds = true
         imageUser.contentMode = .scaleAspectFill
         nameUserLabel.font = UIFont.systemFont(ofSize: 18, weight: .bold)
+        nameUserLabel.backgroundColor = .systemBackground
+        nameUserLabel.isOpaque = true
         dateLabel.font = UIFont.systemFont(ofSize: 14, weight: .regular)
         dateLabel.textColor = .systemGray
+        dateLabel.backgroundColor = .systemBackground
+        dateLabel.isOpaque = true
 
     }
 
@@ -56,7 +60,7 @@ final class NewsHeaderTableViewCell: UITableViewCell {
         else { return }
         Nuke.loadImage(with: url, into: imageUser)
         nameUserLabel.text = String(news.sourse)
-        dateLabel.text = "\(news.date)  👁 \(news.view)"
+        dateLabel.text = "\(news.date)   ☉\(news.view)"
     }
     
 }
