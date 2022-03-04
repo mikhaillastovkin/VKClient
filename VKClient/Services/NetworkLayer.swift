@@ -8,8 +8,13 @@
 import Foundation
 import Alamofire
 import RealmSwift
+import PromiseKit
 
-final class NetworkLayer {
+protocol GetFriendProxyProtocol {
+    func getFriends(for user: String, complition: @escaping([Users]) -> Void)
+}
+
+final class NetworkLayer: GetFriendProxyProtocol {
     
     private let baseUrl = "https://api.vk.com/method"
     
@@ -20,17 +25,19 @@ final class NetworkLayer {
     }
     
     
-    func getNewsFeed(filter: FilterNews, complition: @escaping ([VkNewsItems], [VkNewsGroups], [VkNewsProfiles]) -> Void) {
+    func getNewsFeed(filter: FilterNews, startFrom: String?, complition: @escaping ([VkNewsItems], [VkNewsGroups], [VkNewsProfiles], String) -> Void) {
         var newsItems = [VkNewsItems]()
         var newsGroups = [VkNewsGroups]()
         var newsProfiles = [VkNewsProfiles]()
+        var newsStartFrom = String()
 
         let decodeVkNewsDG = DispatchGroup()
         let baseMethod = "/newsfeed.get"
         let parametrs: Parameters = [
             "access_token" : Singletone.share.token,
             "filters" : filter,
-            "count" : 100,
+            "start_from" : startFrom,
+            "count" : 10,
             "v" : "5.131",
         ]
         AF.request(self.baseUrl + baseMethod, method: .get, parameters: parametrs).responseJSON { json in
@@ -41,6 +48,7 @@ final class NetworkLayer {
                 do {
                     let items = try JSONDecoder().decode(VkNews<VkNewsResonseItems>.self, from: jsonData)
                     newsItems = items.response.items
+                    newsStartFrom = items.response.nextFrom
                 }
                 catch { print(error) }
                 do {
@@ -53,15 +61,17 @@ final class NetworkLayer {
                     newsProfiles = profiles.response.profiles
                 }
                 catch { print(error)}
+
             }
             decodeVkNewsDG.notify(queue: DispatchQueue.main) {
-                complition(newsItems, newsGroups, newsProfiles)
+                complition(newsItems, newsGroups, newsProfiles, newsStartFrom)
             }
         }
     }
     
     func getFriends(
-        for user: String) {
+        for user: String,
+        complition: @escaping([Users]) -> Void) {
             let baseMethod = "/friends.get"
             let parametrs: Parameters = [
                 "user_id" : Singletone.share.idUser,
@@ -77,6 +87,8 @@ final class NetworkLayer {
                     let realmFriends = friends.response.items.map { RealmUsers(user: $0) }
                     DispatchQueue.main.async {
                         try? RealmService.save(items: realmFriends)
+                        complition(friends.response.items)
+
                     }
                 } catch {
                     print(error)
@@ -111,26 +123,19 @@ final class NetworkLayer {
         }
     
     func getGroup(
-        for user: String) {
+        for user: String) -> Promise<Data> {
             let baseMethod = "/groups.get"
             let parametrs: Parameters = [
                 "user_id" : user,
                 "extended" : true,
                 "access_token" : Singletone.share.token,
                 "v" : "5.131",]
-            AF.request(baseUrl + baseMethod, method: .get, parameters: parametrs).responseJSON { json in
-                guard json.error == nil,
-                      let jsonData = json.data
-                else { return }
-                do {
-                    let groups = try JSONDecoder().decode(VKResonse<Groups>.self, from: jsonData)
-                    let realmGroup = groups.response.items.map { RealmGroups(group: $0) }
-                    DispatchQueue.main.async {
-                        try? RealmService.save(items: realmGroup)
-                        
-                    }
-                } catch {
-                    print(error)
+            return Promise { seal in
+                AF.request(baseUrl + baseMethod, method: .get, parameters: parametrs).responseJSON { json in
+                    guard json.error == nil,
+                          let jsonData = json.data
+                    else { return seal.reject(json.error as! Error)}
+                    seal.fulfill(jsonData)
                 }
             }
         }

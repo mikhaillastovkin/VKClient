@@ -5,7 +5,7 @@
 //  Created by Михаил Ластовкин on 05.07.2021.
 //
 
-import Foundation
+import UIKit
 
 struct News {
     let sourse: String
@@ -19,6 +19,7 @@ struct News {
     let repostsCount: String
     let isReposted: Bool
     let commentCount: String
+    let aspectRatio: CGFloat
 }
 
 //MARK: - VK News
@@ -206,16 +207,21 @@ struct VkNewsPhotos: Decodable {
 struct VkNewsPhotoSizes : Decodable {
     let url : String
     let width : Int
+    let height: Int
+    let aspectRatio: CGFloat
 
     enum CodingKeys: String, CodingKey {
         case url
         case width
+        case height
     }
 
     init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         url = try values.decode(String.self, forKey: .url)
         width = try values.decode(Int.self, forKey: .width)
+        height = try values.decode(Int.self, forKey: .height)
+        aspectRatio = CGFloat(height) / CGFloat(width)
     }
 }
 
