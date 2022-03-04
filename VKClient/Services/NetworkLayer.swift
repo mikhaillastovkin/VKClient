@@ -10,7 +10,11 @@ import Alamofire
 import RealmSwift
 import PromiseKit
 
-final class NetworkLayer {
+protocol GetFriendProxyProtocol {
+    func getFriends(for user: String, complition: @escaping([Users]) -> Void)
+}
+
+final class NetworkLayer: GetFriendProxyProtocol {
     
     private let baseUrl = "https://api.vk.com/method"
     

@@ -54,7 +54,8 @@ final class FriendsTableViewController: UIViewController {
     }
 
     private func loadFriends(){
-        nwl.getFriends(for: Singletone.share.idUser) { [weak self] users in
+        let proxy = GetFriendProxy(networkLayer: nwl)
+        proxy.getFriends(for: Singletone.share.idUser) { [weak self] users in
             self?.friendsArray = users.sorted(by: { $0.name < $1.name })
             self?.friendsTableView.reloadData()
         }
